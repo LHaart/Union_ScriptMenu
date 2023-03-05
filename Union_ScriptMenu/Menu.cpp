@@ -303,6 +303,23 @@ namespace GOTHIC_ENGINE {
 				zSTRING var = Z parser->GetScriptString( elem, 1 );
 				text = Z parser->GetScriptString( var );
 
+				zSTRING var2 = Z parser->GetScriptString( elem, 2 );
+				if(!var2.IsEmpty()) {
+					if(!is_number(var2.ToChar())) {
+						int value = parser->GetScriptInt(var2);
+						auto arr = (A text).Split( '|' );
+						if(arr.GetNum() > value) {
+							text = Z(*arr.GetSafe( value ));
+						}
+					} else {
+						int value = (A var2).ToInt32();
+						auto arr = (A text).Split( '|' );
+						if(arr.GetNum() > value) {
+							text = Z(*arr.GetSafe( value ));
+						}
+					}
+				}
+
 				x = GetInt(elem, 3);
 				y = GetInt(elem, 4);
 			}

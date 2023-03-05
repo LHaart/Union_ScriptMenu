@@ -48,4 +48,18 @@ namespace GOTHIC_ENGINE {
 	unsigned char GetCharFromDIK_AST( int dik1, int dik2, int dik3 ) {
 		return GetCharFromDIK( dik1, dik2, dik3 );
 	}
+
+	bool is_number( char* s ) {
+
+		bool flag = true;
+
+		for ( size_t i = 0; i < strlen( s ); i++ ) {
+			if ( !isdigit( s[ i ] ) ) {
+				flag = false;
+				break;
+			}
+		}
+
+		return flag;
+	}
 }
