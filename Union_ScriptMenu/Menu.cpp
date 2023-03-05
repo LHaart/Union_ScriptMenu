@@ -429,7 +429,7 @@ namespace GOTHIC_ENGINE {
 			} else if(p == "player.level") {
 				var = player->level;
 			} else if((A p).HasWord("player.talent")) {
-				Array<CStringA> arr = (A p).Split( ' ' );
+				Array<CStringA> arr = (A p).Split( ' ' ); 
 				if(arr.GetNum() > 1 && arr.GetSafe( 1 )) {
 					int index = arr.GetSafe( 1 )->ToInt32();
 					var = player->GetTalentSkill( index );
