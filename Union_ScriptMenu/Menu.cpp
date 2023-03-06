@@ -290,11 +290,11 @@ namespace GOTHIC_ENGINE {
 				y = GetInt(elem, 4);
 			} else if(firstParam == "VAR INT") {
 				zSTRING var = Z parser->GetScriptString( elem, 1 );
-				text = Z parser->GetScriptInt( var );
+				text = Z GetInt( var );
 
 				var = parser->GetScriptString( elem, 2 );
 				if(!var.IsEmpty()) {
-					zSTRING sText2 = Z parser->GetScriptInt( var );
+					zSTRING sText2 = Z GetInt( var );
 					text += "/" + sText2;
 				}
 				x = GetInt(elem, 3);
@@ -306,7 +306,7 @@ namespace GOTHIC_ENGINE {
 				zSTRING var2 = Z parser->GetScriptString( elem, 2 );
 				if(!var2.IsEmpty()) {
 					if(!is_number(var2.ToChar())) {
-						int value = parser->GetScriptInt(var2);
+						int value = GetInt(var2);
 						auto arr = (A text).Split( '|' );
 						if(arr.GetNum() > value) {
 							text = Z(*arr.GetSafe( value ));
@@ -336,11 +336,11 @@ namespace GOTHIC_ENGINE {
 					y = GetInt(elem, 9);
 				} else if(firstParam == "VAR INT") {
 					zSTRING var = parser->GetScriptString( elem, 6 );
-					text = Z parser->GetScriptInt( var );
+					text = Z GetInt( var );
 
 					var = parser->GetScriptString( elem, 7 );
 					if(!var.IsEmpty()) {
-						zSTRING sText2 = Z parser->GetScriptInt( var );
+						zSTRING sText2 = Z GetInt( var );
 						text += "/" + sText2;
 					}
 					x = GetInt(elem, 8);
@@ -429,6 +429,28 @@ namespace GOTHIC_ENGINE {
 		if(ogame->game_testmode || zCConsole::cur_console) return;
 
 		Debug();
+	}
+
+	int ScriptMenu::GetInt( zSTRING p ) {
+		int var = 0;
+		 if(!is_number(p.ToChar())) {
+			 if(p.HasWord("[")) {
+				 p.Replace("[", " ");
+				 p.Replace("]", "");
+				 Array<CStringA> arr = (A p).Split( ' ' );
+				 if(arr.GetNum() > 1 && arr.GetSafe( 1 )) {
+					 int index = arr.GetSafe( 1 )->ToInt32();
+					 zSTRING scrVar = *arr.GetSafe( 0 );
+					 var = parser->GetScriptInt(scrVar, index );
+				 }
+			 } else {
+				 var = parser->GetScriptInt(p);
+			 }
+		 } else {
+			 var = (A p).ToInt32();
+		 }
+
+		 return var;
 	}
 
 	int ScriptMenu::GetInt( zSTRING param, int index ) {
